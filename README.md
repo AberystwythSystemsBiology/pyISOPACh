@@ -1,0 +1,2 @@
+# pyIDICk
+Isotopic  DIstribution Calculator
