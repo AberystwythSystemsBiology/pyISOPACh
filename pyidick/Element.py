@@ -28,10 +28,3 @@ class Element(object):
 
     def _get_isotopic_weight(self, symbol):
         return self.periodic_table[symbol]["isotopic_weight"]
-
-
-    def remove_element(self, count):
-        self.count -= count
-
-    def add_element(self, count):
-        self.count += count

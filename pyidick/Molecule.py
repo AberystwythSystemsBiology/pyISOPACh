@@ -61,12 +61,12 @@ class Molecule(object):
 
         return self.generate_element_list(_structure_dict)
 
-    def isotopic_distribution(self, rule_dict=None):
+    def isotopic_distribution(self, rule_dict=None, num_electrons=0):
+        electron_weight = 0.0005484
         if rule_dict == None:
             elements_list = self.generate_element_list()
         else:
             elements_list = self._rule_dict_elements_list(rule_dict)
-
 
         def cartesian(ratios, weights, f_ratios, f_weights, count=1, threshold=0.05):
             n_ratios = []
@@ -105,7 +105,7 @@ class Molecule(object):
             peak_intensity = max(signals.values())[0]
 
             for mass, intensity in signals.items():
-                mass = round(mass, 5)
+                mass = round((mass + (electron_weight * num_electrons)), 5)
                 relative_intensity = round(float(sum(intensity)) * 100 / peak_intensity, 5)
                 if mass not in distributions.keys():
                     distributions[mass] = relative_intensity
@@ -129,6 +129,4 @@ if __name__ == "__main__":
     print "Sucrose"
     print "Molecular Formula: ", mol.molecular_formula
     print "[M]", mol.isotopic_distribution()
-    print "[M-H]", mol.isotopic_distribution(rule_dict)
-
-
+    print "[M-.]", mol.isotopic_distribution(num_electrons=-1)
