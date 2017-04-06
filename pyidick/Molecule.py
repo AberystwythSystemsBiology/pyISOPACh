@@ -61,7 +61,7 @@ class Molecule(object):
 
         return self.generate_element_list(_structure_dict)
 
-    def isotopic_distribution(self, rule_dict=None, num_electrons=0):
+    def isotopic_distribution(self, rule_dict=None, num_electrons=0, num_charges=1):
         electron_weight = 0.0005484
         if rule_dict == None:
             elements_list = self.generate_element_list()
@@ -97,7 +97,7 @@ class Molecule(object):
                     ratios.append(element.ratios)
             return cartesian(ratios, weights, ratios[0], weights[0])
 
-        def calculate_distributions(gen_iso, charges=1):
+        def calculate_distributions(gen_iso):
             signals = dict((key, tuple(v for (k,v) in pairs))
                           for (key, pairs) in itertools.groupby(sorted(gen_iso), operator.itemgetter(0)))
 
@@ -129,4 +129,4 @@ if __name__ == "__main__":
     print "Sucrose"
     print "Molecular Formula: ", mol.molecular_formula
     print "[M]", mol.isotopic_distribution()
-    print "[M-.]", mol.isotopic_distribution(num_electrons=-1)
+    print "[M-.]", mol.isotopic_distribution(num_electrons=1)
