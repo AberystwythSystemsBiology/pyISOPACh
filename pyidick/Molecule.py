@@ -136,23 +136,3 @@ class Molecule(object):
         # TODO: This is just a temporary solution.
         self.__init__(self.smiles)
         return distributions
-
-if __name__ == "__main__":
-    mol = Molecule("OC[C@H]1O[C@@](CO)(O[C@H]2O[C@H](CO)[C@@H](O)[C@H](O)[C@H]2O)[C@@H](O)[C@@H]1O")
-
-
-    print "Sucrose"
-    print "Molecular Formula: ", mol.molecular_formula
-
-
-    base = mol.isotopic_distribution()[0][0]
-
-    test_one = mol.isotopic_distribution({"add" : {}, "remove" : {"H" : 1}}, electrons=1, charge=-1)[0][0]
-
-    print "[M-H]1-", test_one, base, test_one - base
-    test_two = mol.isotopic_distribution(charge=-1, electrons=0)[0][0]
-    print "[M-.]1-", test_two, base, test_two - base
-    test_three = mol.isotopic_distribution({"add" : {}, "remove" : {"H" : 2}}, charge=-2, electrons=2)[0][0]
-    print "[M-2H]2-", test_three, base, test_three - base
-    test_four = mol.isotopic_distribution({"add" : {"K" : 1}, "remove" : {}, "multiply" : 2}, charge=1, electrons=-1)[0][0]
-    print "[2M+K]1+", test_four, base, test_four - base
