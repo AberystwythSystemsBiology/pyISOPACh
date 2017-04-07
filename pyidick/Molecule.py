@@ -74,11 +74,12 @@ class Molecule(object):
 
         return self.generate_element_list(_structure_dict)
 
-    def isotopic_distribution(self, rule_dict=None, num_electrons=0, num_charges=1):
+    def isotopic_distribution(self, rule_dict=None, electrons=1, charge=0):
         electron_weight = 0.0005484
 
-        if num_charges == 0:
-            num_charges = 1
+
+        if charge == 0:
+            charge = 1
 
         if rule_dict == None:
             elements_list = self.generate_element_list()
@@ -122,7 +123,7 @@ class Molecule(object):
             peak_intensity = max(signals.values())[0]
 
             for mass, intensity in signals.items():
-                mass = round(mass + (electron_weight * num_electrons) / abs(num_charges), 5)
+                mass = round((mass + (electron_weight * electrons)) / abs(charge), 5)
                 relative_intensity = round(float(sum(intensity)) * 100 / peak_intensity, 5)
                 if mass not in distributions.keys():
                     distributions[mass] = relative_intensity
@@ -139,17 +140,19 @@ class Molecule(object):
 if __name__ == "__main__":
     mol = Molecule("OC[C@H]1O[C@@](CO)(O[C@H]2O[C@H](CO)[C@@H](O)[C@H](O)[C@H]2O)[C@@H](O)[C@@H]1O")
 
-    rule_dict = {
-        "add" : {},
-        "remove" : {"H" : 1}
-    }
 
     print "Sucrose"
     print "Molecular Formula: ", mol.molecular_formula
 
 
-    print "[M]:", mol.isotopic_distribution()
-    print mol.accurate_mass()
-    print "[M-H]1-", mol.isotopic_distribution(rule_dict, num_electrons=1)
-    print mol.accurate_mass()
-    print "[M-H]1-", mol.isotopic_distribution(rule_dict, num_electrons=1)
+    base = mol.isotopic_distribution()[0][0]
+
+    test_one = mol.isotopic_distribution({"add" : {}, "remove" : {"H" : 1}}, electrons=1, charge=-1)[0][0]
+
+    print "[M-H]1-", test_one, base, test_one - base
+    test_two = mol.isotopic_distribution(charge=-1, electrons=0)[0][0]
+    print "[M-.]1-", test_two, base, test_two - base
+    test_three = mol.isotopic_distribution({"add" : {}, "remove" : {"H" : 2}}, charge=-2, electrons=2)[0][0]
+    print "[M-2H]2-", test_three, base, test_three - base
+    test_four = mol.isotopic_distribution({"add" : {"K" : 1}, "remove" : {}, "multiply" : 2}, charge=1, electrons=-1)[0][0]
+    print "[2M+K]1+", test_four, base, test_four - base
