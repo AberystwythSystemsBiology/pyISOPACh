@@ -1,6 +1,7 @@
 from Element import Element
 
 import itertools, operator
+
 from re import findall
 from rdkit.Chem import rdMolDescriptors, MolFromSmiles
 
@@ -109,7 +110,7 @@ class Molecule(object):
             peak_intensity = max(signals.values())[0]
 
             for mass, intensity in signals.items():
-                mass = round((mass + (electron_weight * num_electrons)/abs(num_charges)), 5)
+                mass = round(mass + (electron_weight * num_electrons) / abs(num_charges), 5)
                 relative_intensity = round(float(sum(intensity)) * 100 / peak_intensity, 5)
                 if mass not in distributions.keys():
                     distributions[mass] = relative_intensity
@@ -124,7 +125,6 @@ class Molecule(object):
 if __name__ == "__main__":
     mol = Molecule("OC[C@H]1O[C@@](CO)(O[C@H]2O[C@H](CO)[C@@H](O)[C@H](O)[C@H]2O)[C@@H](O)[C@@H]1O")
 
-
     rule_dict = {
         "add" : {},
         "remove" : {"H" : 1}
@@ -132,5 +132,13 @@ if __name__ == "__main__":
 
     print "Sucrose"
     print "Molecular Formula: ", mol.molecular_formula
-    print "[M]", mol.isotopic_distribution()
-    print "[M-.]", mol.isotopic_distribution(num_electrons=1, num_charges=1)
+
+
+    print "[M]:", mol.isotopic_distribution()
+    print mol.structure_dict
+    print mol.accurate_mass()
+    print "[M-H]1-", mol.isotopic_distribution(rule_dict, num_electrons=1)
+    print mol.structure_dict
+    print mol.accurate_mass()
+    print "[M-H]1-", mol.isotopic_distribution(rule_dict, num_electrons=1)
+    print mol.structure_dict
