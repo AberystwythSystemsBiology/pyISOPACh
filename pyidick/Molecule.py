@@ -1,3 +1,5 @@
+#!/usr/bin/env python
+
 from Element import Element
 
 import itertools, operator
@@ -6,7 +8,17 @@ from re import findall
 from rdkit.Chem import rdMolDescriptors, MolFromSmiles
 
 class Molecule(object):
+    ''' Molecule class
+    
+    Attributes:
+        smiles: A string containing SMILES notation for a given molecule.
+        __mol: A rdkit.mol object, generated from SMILES.
+        molecular_formula: The molecular formula that shows the total number and kinds of atoms in a molecule.
+        structure_dict: A structure dict, comprised from the generated_molecula formula attribute.
+    '''
+
     def __init__(self, smiles):
+        '''Inits Molecule will smiles, and generates all other attributes.'''
         self.smiles = smiles
         self.__mol = MolFromSmiles(smiles)
         self.molecular_formula = rdMolDescriptors.CalcMolFormula(self.__mol)
@@ -120,6 +132,8 @@ class Molecule(object):
 
         ratios, weights = isotopes()
         distributions = calculate_distributions([(weights[index], ratio) for index, ratio in enumerate(ratios) if ratio > 1e-6])
+        # TODO: This is just a temporary solution.
+        self.__init__(self.smiles)
         return distributions
 
 if __name__ == "__main__":
@@ -135,10 +149,7 @@ if __name__ == "__main__":
 
 
     print "[M]:", mol.isotopic_distribution()
-    print mol.structure_dict
     print mol.accurate_mass()
     print "[M-H]1-", mol.isotopic_distribution(rule_dict, num_electrons=1)
-    print mol.structure_dict
     print mol.accurate_mass()
     print "[M-H]1-", mol.isotopic_distribution(rule_dict, num_electrons=1)
-    print mol.structure_dict
