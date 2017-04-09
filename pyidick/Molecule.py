@@ -136,3 +136,4 @@ class Molecule(object):
         # TODO: This is just a temporary solution.
         self.__init__(self.smiles)
         return distributions
+

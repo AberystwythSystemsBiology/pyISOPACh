@@ -8,5 +8,8 @@ setup(
     license='MIT',
     author='Keiron OShea',
     author_email = 'keo7@aber.ac.uk',
-    description = 'Isotopic Distribution Calculator'
+    description = 'Isotopic Distribution Calculator',
+    package_data={
+      'pyidick': ['data/*.json'],
+   },
 )
