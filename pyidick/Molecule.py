@@ -12,7 +12,7 @@ class Molecule(object):
     
     Attributes:
         smiles: A string containing SMILES notation for a given molecule.
-        __mol: A rdkit.mol object, generated from SMILES.
+        _mol: A rdkit.mol object, generated from SMILES.
         molecular_formula: The molecular formula that shows the total number and kinds of atoms in a molecule.
         structure_dict: A structure dict, comprised from the generated_molecula formula attribute.
     '''
@@ -20,9 +20,11 @@ class Molecule(object):
     def __init__(self, smiles):
         '''Inits Molecule will smiles, and generates all other attributes.'''
         self.smiles = smiles
-        self.__mol = MolFromSmiles(smiles)
-        self.molecular_formula = rdMolDescriptors.CalcMolFormula(self.__mol)
+        self._rdkmol = MolFromSmiles(smiles)
+        self.molecular_formula = rdMolDescriptors.CalcMolFormula(self._rdkmol)
         self.structure_dict = self.__split()
+        self.accurate_mass = self._calculate_accurate_mass()
+        self.num_atoms = self._calculate_number_atoms()
 
     def generate_element_list(self, chemical_structure=None):
         if chemical_structure == None:
@@ -30,7 +32,12 @@ class Molecule(object):
         element_list = [Element(symbol, chemical_structure[symbol]) for symbol in chemical_structure.keys()]
         return element_list
 
-    def accurate_mass(self, chemical_structure=None):
+    def _calculate_number_atoms(self, chemical_structure=None):
+        if chemical_structure == None:
+            chemical_structure = self.__split()
+        return sum([chemical_structure[x] for x in chemical_structure])
+
+    def _calculate_accurate_mass(self, chemical_structure=None):
         if chemical_structure == None:
             chemical_structure = self.__split()
         element_list = self.generate_element_list(chemical_structure)
@@ -136,4 +143,3 @@ class Molecule(object):
         # TODO: This is just a temporary solution.
         self.__init__(self.smiles)
         return distributions
-
