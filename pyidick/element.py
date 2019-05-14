@@ -1,10 +1,6 @@
 import json, numpy as np, periodic_table as pt
 
 class Element(object):
-    '''
-    with open("data/periodic_table.json") as pt_file:
-        periodic_table = json.load(pt_file)
-    '''
 
     periodic_table = pt.get_periodic_table()
     def __init__(self, symbol, count):
