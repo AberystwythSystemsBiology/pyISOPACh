@@ -1,4 +1,4 @@
-def get_periodic_table():
+def get_periodic_table() -> dict:
   return {
     "Ru": {
       "isotopic_weight": [95.907598, 97.905287, 98.9059393, 99.9042197, 100.9055822, 101.9043495, 103.90543],
