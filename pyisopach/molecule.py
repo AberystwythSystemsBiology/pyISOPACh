@@ -4,6 +4,9 @@ import operator
 from re import findall
 from .element import Element
 
+ELECTRON_WEIGHT = 0.0005484
+
+
 class Molecule:
     def __init__(self, molecular_formula):
         self.molecular_formula = molecular_formula
@@ -32,9 +35,6 @@ class Molecule:
                 structure_dict[element] = 1
 
          return structure_dict
-
-
-
 
     def generate_element_list(self, chemical_structure=None):
         element_list = [
@@ -71,7 +71,6 @@ class Molecule:
         return self.generate_element_list(_structure_dict)
 
     def isotopic_distribution(self, rule_dict=None, electrons=1, charge=0):
-        electron_weight = 0.0005484
 
         if charge == 0:
             charge = 1
@@ -126,7 +125,7 @@ class Molecule:
 
             for mass, intensity in signals.items():
                 mass = round(
-                    (mass + (electron_weight * electrons)) / abs(charge), 5)
+                    (mass + (ELECTRON_WEIGHT * electrons)) / abs(charge), 5)
                 relative_intensity = round(
                     float(sum(intensity)) * 100 / peak_intensity, 5)
                 if mass not in distributions.keys():
