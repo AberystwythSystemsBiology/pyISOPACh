@@ -1,2 +1,2 @@
-from .molecule import Element
+from .element import Element
 from .molecule import Molecule

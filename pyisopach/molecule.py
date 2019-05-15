@@ -7,7 +7,7 @@ class Molecule:
 
     def __init__(self, molecular_formula):
         self.molecular_formula = molecular_formula
-        
+
         self.structure_dict = self.__split()
         self.accurate_mass = self._calculate_accurate_mass()
         self.num_atoms = self._calculate_number_atoms()
