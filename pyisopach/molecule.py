@@ -3,8 +3,8 @@ import operator
 from re import findall
 from .element import Element
 
-class Molecule:
 
+class Molecule:
     def __init__(self, molecular_formula):
         self.molecular_formula = molecular_formula
         self.structure_dict = self.__split()
@@ -14,7 +14,10 @@ class Molecule:
     def generate_element_list(self, chemical_structure=None):
         if chemical_structure == None:
             chemical_structure = self.structure_dict
-        element_list = [Element(symbol, chemical_structure[symbol]) for symbol in chemical_structure.keys()]
+        element_list = [
+            Element(symbol, chemical_structure[symbol])
+            for symbol in chemical_structure.keys()
+        ]
         return element_list
 
     def _calculate_number_atoms(self, chemical_structure=None):
@@ -31,7 +34,10 @@ class Molecule:
     def __split(self):
         structure_dict = {}
         symbols = findall("[A-Z][a-z]*", self.molecular_formula)
-        symbol_count = [findall("[0-9]+", e) for e in findall("[A-Z][a-z]*[0-9]*", self.molecular_formula)]
+        symbol_count = [
+            findall("[0-9]+", e)
+            for e in findall("[A-Z][a-z]*[0-9]*", self.molecular_formula)
+        ]
         for index, symbol in enumerate(symbols):
             count = symbol_count[index]
             if len(count) > 0:
@@ -46,11 +52,13 @@ class Molecule:
 
         if "multiply" in rule_dict.keys():
             for element in _structure_dict.keys():
-                _structure_dict[element] = _structure_dict[element] * rule_dict["multiply"]
+                _structure_dict[element] = _structure_dict[
+                    element] * rule_dict["multiply"]
 
         elif "divide" in rule_dict.keys():
             for element in _structure_dict.keys():
-                _structure_dict[element] = _structure_dict[element] / rule_dict["divide"]
+                _structure_dict[element] = _structure_dict[
+                    element] / rule_dict["divide"]
 
         for element in rule_dict["add"]:
             try:
@@ -69,7 +77,6 @@ class Molecule:
     def isotopic_distribution(self, rule_dict=None, electrons=1, charge=0):
         electron_weight = 0.0005484
 
-
         if charge == 0:
             charge = 1
 
@@ -78,7 +85,12 @@ class Molecule:
         else:
             elements_list = self._rule_dict_elements_list(rule_dict)
 
-        def cartesian(ratios, weights, f_ratios, f_weights, count=1, threshold=0.05):
+        def cartesian(ratios,
+                      weights,
+                      f_ratios,
+                      f_weights,
+                      count=1,
+                      threshold=0.05):
             n_ratios = []
             n_weights = []
             normalised_ratio = [n / max(f_ratios) for n in f_ratios]
@@ -95,7 +107,8 @@ class Molecule:
                         n_weights += [current_s_weight + w]
             count = count + 1
             if count < len(ratios) and len(n_ratios) < 1000:
-                n_ratios, n_weights = cartesian(ratios, weights, n_ratios, n_weights, count)
+                n_ratios, n_weights = cartesian(ratios, weights, n_ratios,
+                                                n_weights, count)
             return n_ratios, n_weights
 
         def isotopes():
@@ -108,15 +121,18 @@ class Molecule:
             return cartesian(ratios, weights, ratios[0], weights[0])
 
         def calculate_distributions(gen_iso):
-            signals = dict((key, tuple(v for (k,v) in pairs))
-                          for (key, pairs) in itertools.groupby(sorted(gen_iso), operator.itemgetter(0)))
+            signals = dict((key, tuple(v for (k, v) in pairs))
+                           for (key, pairs) in itertools.groupby(
+                               sorted(gen_iso), operator.itemgetter(0)))
 
             distributions = {}
             peak_intensity = max(signals.values())[0]
 
             for mass, intensity in signals.items():
-                mass = round((mass + (electron_weight * electrons)) / abs(charge), 5)
-                relative_intensity = round(float(sum(intensity)) * 100 / peak_intensity, 5)
+                mass = round(
+                    (mass + (electron_weight * electrons)) / abs(charge), 5)
+                relative_intensity = round(
+                    float(sum(intensity)) * 100 / peak_intensity, 5)
                 if mass not in distributions.keys():
                     distributions[mass] = relative_intensity
                 else:
@@ -124,5 +140,7 @@ class Molecule:
             return sorted(distributions.items(), key=lambda x: x[0])
 
         ratios, weights = isotopes()
-        distributions = calculate_distributions([(weights[index], ratio) for index, ratio in enumerate(ratios) if ratio > 1e-6])
+        distributions = calculate_distributions(
+            [(weights[index], ratio) for index, ratio in enumerate(ratios)
+             if ratio > 1e-6])
         return distributions

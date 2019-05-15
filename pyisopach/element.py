@@ -2,9 +2,11 @@ import json
 import numpy as np
 from .periodic_table import get_periodic_table
 
+
 class Element(object):
 
     periodic_table = get_periodic_table()
+
     def __init__(self, symbol, count):
         self.symbol = symbol
         self.count = count
@@ -25,7 +27,8 @@ class Element(object):
     def _get_atomic_weight(self, symbol):
         isotopic_weight = self._get_isotopic_weight(symbol)
         ratios = self.periodic_table[symbol]["isotopic_ratio"]
-        return float(np.matrix(ratios) * np.transpose(np.matrix(isotopic_weight)))
+        return float(
+            np.matrix(ratios) * np.transpose(np.matrix(isotopic_weight)))
 
     def _get_isotopic_weight(self, symbol):
         return self.periodic_table[symbol]["isotopic_weight"]
