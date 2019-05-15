@@ -125,6 +125,4 @@ class Molecule:
 
         ratios, weights = isotopes()
         distributions = calculate_distributions([(weights[index], ratio) for index, ratio in enumerate(ratios) if ratio > 1e-6])
-        # TODO: This is just a temporary solution.
-        self.__init__(self.smiles)
         return distributions

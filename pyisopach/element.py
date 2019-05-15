@@ -1,10 +1,10 @@
 import json
 import numpy as np
-import periodic_table as pt
+from .periodic_table import get_periodic_table
 
 class Element(object):
 
-    periodic_table = pt.get_periodic_table()
+    periodic_table = get_periodic_table()
     def __init__(self, symbol, count):
         self.symbol = symbol
         self.count = count
