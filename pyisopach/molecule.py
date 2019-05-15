@@ -1,4 +1,5 @@
 import itertools
+from collections import Counter
 import operator
 from re import findall
 from .element import Element
@@ -18,20 +19,22 @@ class Molecule:
 
     @property
     def _structure_dict(self):
-        structure_dict = {}
-        symbols = findall("[A-Z][a-z]*", self.molecular_formula)
-        symbol_count = [
-            findall("[0-9]+", e)
-            for e in findall("[A-Z][a-z]*[0-9]*", self.molecular_formula)
-        ]
-        for index, symbol in enumerate(symbols):
-            count = symbol_count[index]
-            if len(count) > 0:
-                count = int(count[0])
-            else:
-                count = 1
-            structure_dict[symbol] = count
-        return structure_dict
+         parsed = findall(r"([A-Z][a-z]*)(\d*)|(\()|(\))(\d*)", self.molecular_formula)
+         structure_dict = {}
+         for element_details in parsed:
+             element = element_details[0]
+             if element not in structure_dict:
+                 structure_dict[element] = 0
+             element_count = sum([int(x) for x in element_details[1:] if x != ""])
+             if element_count > 0:
+                 structure_dict[element] += element_count
+             else:
+                structure_dict[element] = 1
+
+         return structure_dict
+
+
+
 
     def generate_element_list(self, chemical_structure=None):
         element_list = [
@@ -39,7 +42,7 @@ class Molecule:
             for symbol in self.structure_dict.keys()
         ]
         return element_list
-    
+
     def _rule_dict_elements_list(self, rule_dict):
         _structure_dict = self.structure_dict
 
