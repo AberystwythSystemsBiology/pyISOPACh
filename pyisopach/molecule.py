@@ -1,18 +1,13 @@
-#!/usr/bin/env python
-
-from Element import Element
-
-import itertools, operator
-
+import itertools
+import operator
 from re import findall
-from rdkit.Chem import rdMolDescriptors, MolFromSmiles
+from .element import Element
 
 class Molecule:
 
-    def __init__(self, smiles):
-        self.smiles = smiles
-        self._rdkmol = MolFromSmiles(smiles)
-        self.molecular_formula = rdMolDescriptors.CalcMolFormula(self._rdkmol)
+    def __init__(self, molecular_formula):
+        self.molecular_formula = molecular_formula
+        
         self.structure_dict = self.__split()
         self.accurate_mass = self._calculate_accurate_mass()
         self.num_atoms = self._calculate_number_atoms()
