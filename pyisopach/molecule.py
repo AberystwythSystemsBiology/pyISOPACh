@@ -39,29 +39,9 @@ class Molecule:
          return structure_dict
 
 
-    def _apply_rule_dict(self, rule_dict) -> List[Element]:
-        _structure_dict = self.structure_dict
+    def _apply_rule_dict(self, rule_dict: dict) -> List[Element]:
+        _sd = self._structure_dict
 
-        if "multiply" in rule_dict.keys():
-            for element in _structure_dict.keys():
-                _structure_dict[element] = _structure_dict[
-                    element] * rule_dict["multiply"]
+        
 
-        elif "divide" in rule_dict.keys():
-            for element in _structure_dict.keys():
-                _structure_dict[element] = _structure_dict[
-                    element] / rule_dict["divide"]
-
-        for element in rule_dict["add"]:
-            try:
-                _structure_dict[element] += rule_dict["add"][element]
-            except KeyError:
-                _structure_dict[element] = rule_dict["add"][element]
-
-        for element in rule_dict["remove"]:
-            try:
-                _structure_dict[element] -= rule_dict["remove"][element]
-            except KeyError:
-                continue
-
-        return self._element_list
+        print(rule_dict)
