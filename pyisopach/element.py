@@ -15,20 +15,24 @@ class Element(object):
         self.atomic_charge = self._get_atomic_charge(symbol)
         self.ratios = self._get_ratios(symbol)
 
-    def calculate_weight(self):
+    @property
+    def molecular_weight(self):
         return self.atomic_weight * float(self.count)
 
-    def _get_ratios(self, symbol):
-        return self.periodic_table[symbol]["isotopic_ratio"]
+    @property
+    def isotopic_ratios(self):
+        return self.periodic_table[self.symbol]["isotopic_ratio"]
 
-    def _get_atomic_charge(self, symbol):
+    @property
+    def atomic_charge(self, symbol):
         return self.periodic_table[symbol]["atomic_charge"]
 
-    def _get_atomic_weight(self, symbol):
-        isotopic_weight = self._get_isotopic_weight(symbol)
+    @property
+    def atomic_weight(self, symbol):
+        isotopic_weight = self._get_isotopic_weight(self.symbol)
         ratios = self.periodic_table[symbol]["isotopic_ratio"]
-        return float(
-            np.matrix(ratios) * np.transpose(np.matrix(isotopic_weight)))
+        return float(np.matrix(ratios) * np.transpose(np.matrix(isotopic_weight)))
 
-    def _get_isotopic_weight(self, symbol):
-        return self.periodic_table[symbol]["isotopic_weight"]
+    @property
+    def isotopic_weight(self, symbol):
+        return self.periodic_table[self.symbol]["isotopic_weight"]
