@@ -2,7 +2,6 @@ import numpy as np
 from .periodic_table import get_periodic_table
 
 class Element(object):
-
     def __init__(self, symbol, count):
         self.symbol = symbol
         self.count = count
