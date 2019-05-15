@@ -1,4 +1,3 @@
-import json
 import numpy as np
 from .periodic_table import get_periodic_table
 
@@ -6,8 +5,8 @@ class Element(object):
 
     def __init__(self, symbol, count):
         self.symbol = symbol
-        self._periodic_table = get_periodic_table()[symbol]
         self.count = count
+        self._periodic_table = get_periodic_table()[symbol]
 
     @property
     def molecular_weight(self):
