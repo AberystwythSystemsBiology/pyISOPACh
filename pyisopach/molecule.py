@@ -17,7 +17,11 @@ class Molecule:
 
     @property
     def accurate_mass(self):
-        return sum([elem.atomic_weight for elem in self._element_list])
+        return sum([elem.atomic_weight for elem in self._as_elements])
+
+    @property
+    def _as_elements(self):
+        return ([Element(s, c) for (s, c) in self._structure_dict.items()])
 
     def _generate_structure_dict(self):
          parsed = findall(r"([A-Z][a-z]*)(\d*)|(\()|(\))(\d*)", self.molecular_formula)
@@ -31,12 +35,8 @@ class Molecule:
                  structure_dict[element] += element_count
              else:
                 structure_dict[element] = 1
-
          return structure_dict
 
-    @property
-    def _element_list(self):
-        return [Element(symbol, self._structure_dict[symbol]) for symbol in self._structure_dict.keys()]
 
     def _rule_dict_elements_list(self, rule_dict):
         _structure_dict = self.structure_dict
