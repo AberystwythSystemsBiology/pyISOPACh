@@ -1,7 +1,5 @@
 # pyISOPACh - ISOtope PAttern Calculator
 
-# Here be dragons.
-
 ## Example Usage
 
 ```python
