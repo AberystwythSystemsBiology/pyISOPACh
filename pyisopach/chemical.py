@@ -7,16 +7,13 @@ from .element import Element
 class Molecule:
     def __init__(self, molecular_formula):
         self.molecular_formula = molecular_formula
-        self.structure_dict = self.__split()
-        self.accurate_mass = self._calculate_accurate_mass()
+        self.structure_dict = self._split_formula()
         self.num_atoms = self._calculate_number_atoms()
 
     def generate_element_list(self, chemical_structure=None):
-        if chemical_structure == None:
-            chemical_structure = self.structure_dict
         element_list = [
-            Element(symbol, chemical_structure[symbol])
-            for symbol in chemical_structure.keys()
+            Element(symbol, self.structure_dict[symbol])
+            for symbol in self.structure_dict.keys()
         ]
         return element_list
 
@@ -25,13 +22,12 @@ class Molecule:
             chemical_structure = self.__split()
         return sum([chemical_structure[x] for x in chemical_structure])
 
-    def _calculate_accurate_mass(self, chemical_structure=None):
-        if chemical_structure == None:
-            chemical_structure = self.__split()
-        element_list = self.generate_element_list(chemical_structure)
+    @property
+    def accurate_mass(self):
+        element_list = self.generate_element_list(self.structure_dict)
         return sum([x.calculate_weight() for x in element_list])
 
-    def __split(self):
+    def _split_formula(self):
         structure_dict = {}
         symbols = findall("[A-Z][a-z]*", self.molecular_formula)
         symbol_count = [
