@@ -16,8 +16,8 @@ class Molecule:
         return sum(self._structure_dict.values())
 
     @property
-    def accurate_mass(self):
-        return sum([elem.atomic_weight for elem in self._as_elements])
+    def molecular_weight(self):
+        return sum([elem.molecular_weight for elem in self._as_elements])
 
     @property
     def _as_elements(self):
@@ -66,12 +66,11 @@ class Molecule:
         return self._element_list
 
     def isotopic_distribution(self, rule_dict=None, electrons=1, charge=0):
-
         if charge == 0:
             charge = 1
 
         if rule_dict == None:
-            elements_list = self.generate_element_list()
+            elements_list = self._as_elements
         else:
             elements_list = self._rule_dict_elements_list(rule_dict)
 
@@ -106,8 +105,8 @@ class Molecule:
             ratios = []
             for element in elements_list:
                 for i in range(element.count):
-                    weights.append(element.isotopic_weights)
-                    ratios.append(element.ratios)
+                    weights.append(element.isotopic_weight)
+                    ratios.append(element.isotopic_ratios)
             return cartesian(ratios, weights, ratios[0], weights[0])
 
         def calculate_distributions(gen_iso):

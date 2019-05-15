@@ -1,9 +1,8 @@
 from pyisopach import Molecule
 
-mol = Molecule("H2OClH22Cl12133")
+mol = Molecule("C12H22O11")
 
-print(mol._structure_dict)
 
-print(mol.accurate_mass)
+print(mol.molecular_weight)
 
-print(mol._as_elements)
+print(mol.isotopic_distribution())
