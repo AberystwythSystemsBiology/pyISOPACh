@@ -1,4 +1,6 @@
-import json, numpy as np, periodic_table as pt
+import json
+import numpy as np
+import periodic_table as pt
 
 class Element(object):
 
