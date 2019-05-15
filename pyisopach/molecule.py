@@ -10,6 +10,7 @@ ELECTRON_WEIGHT = 0.0005484
 class Molecule:
     def __init__(self, molecular_formula):
         self.molecular_formula = molecular_formula
+        self.structure_dict = self._generate_structure_dict()
 
     @property
     def num_atoms(self):
@@ -20,8 +21,7 @@ class Molecule:
         element_list = self.generate_element_list(self.structure_dict)
         return sum([x.calculate_weight() for x in element_list])
 
-    @property
-    def _structure_dict(self):
+    def _generate_structure_dict(self):
          parsed = findall(r"([A-Z][a-z]*)(\d*)|(\()|(\))(\d*)", self.molecular_formula)
          structure_dict = {}
          for element_details in parsed:
