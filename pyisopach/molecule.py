@@ -7,18 +7,9 @@ import itertools, operator
 from re import findall
 from rdkit.Chem import rdMolDescriptors, MolFromSmiles
 
-class Molecule(object):
-    ''' Molecule class
-    
-    Attributes:
-        smiles: A string containing SMILES notation for a given molecule.
-        _mol: A rdkit.mol object, generated from SMILES.
-        molecular_formula: The molecular formula that shows the total number and kinds of atoms in a molecule.
-        structure_dict: A structure dict, comprised from the generated_molecula formula attribute.
-    '''
+class Molecule:
 
     def __init__(self, smiles):
-        '''Inits Molecule will smiles, and generates all other attributes.'''
         self.smiles = smiles
         self._rdkmol = MolFromSmiles(smiles)
         self.molecular_formula = rdMolDescriptors.CalcMolFormula(self._rdkmol)

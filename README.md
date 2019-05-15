@@ -1,14 +1,14 @@
-# pyIDICk - Isotopic  Distribution Calculator
+# pyISOPACh - ISOtope PAttern Calculator
 
 # Here be dragons.
 
 ## Example Usage
 
 ```python
-import pyidick
+import pyisopach
 
 # Create Molecule object for H2O
-m = pyidick.Molecule("O")
+m = pyisopach.Molecule("O")
 
 # Return Molecular Formula
 m.molecular_formula
