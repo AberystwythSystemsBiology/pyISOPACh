@@ -6,20 +6,18 @@ from .element import Element
 
 ELECTRON_WEIGHT = 0.0005484
 
-
 class Molecule:
     def __init__(self, molecular_formula):
         self.molecular_formula = molecular_formula
-        self.structure_dict = self._generate_structure_dict()
+        self._structure_dict = self._generate_structure_dict()
 
     @property
     def num_atoms(self):
-        return sum(self.structure_dict.values())
+        return sum(self._structure_dict.values())
 
     @property
     def accurate_mass(self):
-        element_list = self.generate_element_list(self.structure_dict)
-        return sum([x.calculate_weight() for x in element_list])
+        return sum([elem.atomic_weight for elem in self._element_list])
 
     def _generate_structure_dict(self):
          parsed = findall(r"([A-Z][a-z]*)(\d*)|(\()|(\))(\d*)", self.molecular_formula)
@@ -36,12 +34,9 @@ class Molecule:
 
          return structure_dict
 
-    def generate_element_list(self, chemical_structure=None):
-        element_list = [
-            Element(symbol, self.structure_dict[symbol])
-            for symbol in self.structure_dict.keys()
-        ]
-        return element_list
+    @property
+    def _element_list(self):
+        return [Element(symbol, self._structure_dict[symbol]) for symbol in self._structure_dict.keys()]
 
     def _rule_dict_elements_list(self, rule_dict):
         _structure_dict = self.structure_dict
@@ -68,7 +63,7 @@ class Molecule:
             except KeyError:
                 continue
 
-        return self.generate_element_list(_structure_dict)
+        return self._element_list
 
     def isotopic_distribution(self, rule_dict=None, electrons=1, charge=0):
 
