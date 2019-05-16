@@ -8,12 +8,12 @@ This is a sister package of the DIMEdb project. This program calculates the isot
 # Import the package into python
 >>> import pyisopach
 # Create Molecule object for Sucrose
->> mol = pyisopach.Molecule("C12H22O11")
+>>> mol = pyisopach.Molecule("C12H22O11")
 # Return molecular weight
->> mol.molecular_weight
+>>> mol.molecular_weight
 342.2970125766493
 # Calculate isotopic distribution/pattern
->> m.isotopic_distribution
+>>> m.isotopic_distribution
 ```
 
 
