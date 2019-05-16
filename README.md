@@ -2,6 +2,22 @@
 
 This is a sister package of the DIMEdb project. This program calculates the isotopic distribution/pattern of a given chemical species.
 
+## Installation
+
+pyISOPACh requires Python 3+ and is unfortunately not compatible with Python 2. If you are still using Python 2, a clever workaround is to install Python 3 and use that instead.
+
+The easiest way of installing pyISOPACh is using ```pip```:
+
+```
+pip install pyisopach
+```
+
+Alternatively, you can use ```git``` and ```pip``` in unison to get the development branch:
+
+```
+pip install https://github.com/AberystwythSystemsBiology/pyISOPACh
+```
+
 ## Example Usage
 
 ```python
@@ -19,4 +35,4 @@ This is a sister package of the DIMEdb project. This program calculates the isot
 
 
 ## License
-Code released under [the MIT license](https://github.com/AberystwythSystemsBiology/pyisopach/blob/master/LICENSE).
+Code released under [the MIT license](https://github.com/AberystwythSystemsBiology/pyISOPACh/blob/master/LICENSE).
