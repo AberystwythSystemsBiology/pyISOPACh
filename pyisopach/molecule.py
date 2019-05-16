@@ -4,6 +4,7 @@ import operator
 from re import findall
 from .element import Element
 from typing import List, Tuple
+import numpy as np
 
 ELECTRON_WEIGHT = 0.0005484
 
@@ -58,7 +59,7 @@ class Molecule:
                 calc_weights: list = [],
                 calc_ratios: list = [],
                 count: int = 1,
-                threshold: float = 0.05):
+                cartesian_threshold: float = 0.05) -> Tuple[np.array, np.array]:
 
             calc_ratios = []
             calc_weights = []
@@ -79,20 +80,28 @@ class Molecule:
 
                     _transformed_ratio = _norm_ratio * _ratio
 
-                    if _transformed_ratio > threshold:
+                    if _transformed_ratio > cartesian_threshold:
                         calc_ratios += [_transformed_ratio]
                         calc_weights += [_norm_weight + _weight]
 
             count += 1
             if count < len(ratios) and len(calc_ratios) < 10000:
                 calc_weights, calc_ratios = _cartesian_product(weights, ratios, calc_weights, calc_ratios, count)
-            return calc_weights, calc_ratios
+            return np.array(calc_weights), np.array(calc_ratios)
 
-        def _filter_cartesian_product(calc_weight, calc_ratios):
+        def _filter_low_ratios(calc_weights : np.array,
+            calc_ratios : np.array,
+            weight_limit: float = 1e-6
+            ) -> Tuple[np.array, np.array]:
+
+            indx = calc_ratios > weight_limit
+            return calc_weights[indx], calc_ratios[indx]
+
+
+        def _generate_isotope_patterns(calc_weight, calc_ratios):
             pass
 
-        def _generate_isotope_patterns():
-            pass
 
         weights, ratios = _get_weights_and_ratios()
         calc_weights, calc_ratios = _cartesian_product(weights, ratios)
+        calc_weights, calc_ratios = _filter_low_ratios(calc_weights, calc_ratios)
