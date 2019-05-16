@@ -39,9 +39,18 @@ class Molecule:
          return structure_dict
 
 
-    def _apply_rule_dict(self, rule_dict: dict) -> List[Element]:
-        _sd = self._structure_dict
-
+    @property
+    def isotopic_distribution(self):
         
+        def _get_weights_and_ratios():
+            weights, ratios = [], []
 
-        print(rule_dict)
+            for elem in self._as_elements:
+                for _ in range(elem.count):
+                    weights.append()
+                    ratios.append()
+
+            return weights, ratios
+
+        weights, ratios = _get_weights_and_ratios())
+

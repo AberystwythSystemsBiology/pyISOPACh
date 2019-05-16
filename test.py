@@ -2,10 +2,9 @@ from pyisopach import Molecule
 
 mol = Molecule("C12H22O11")
 
+print(mol.isotopic_distribution)
 
-print(mol.molecular_weight)
-
-print(mol.num_atoms)
+exit(0)
 
 rule_dict = {
     "add" : {
