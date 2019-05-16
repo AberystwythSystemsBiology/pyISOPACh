@@ -2,7 +2,9 @@ from pyisopach import Molecule
 
 mol = Molecule("C12H22O11")
 
-print(mol.isotopic_distribution)
+#mol.isotopic_distribution()
+print(mol.isotopic_distribution())
+
 
 exit(0)
 

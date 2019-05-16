@@ -7,6 +7,7 @@ from typing import List, Tuple
 import numpy as np
 
 ELECTRON_WEIGHT = 0.0005484
+ELECTRONS = 1
 
 class Molecule:
     def __init__(self, molecular_formula: str):
@@ -40,8 +41,7 @@ class Molecule:
          return structure_dict
 
 
-    @property
-    def isotopic_distribution(self):
+    def isotopic_distribution(self, electrons: int = 1, charge: int = 0):
 
         def _get_weights_and_ratios() -> Tuple[int, int]:
             weights, ratios = [], []
@@ -56,38 +56,36 @@ class Molecule:
         def _cartesian_product(
                 weights : list,
                 ratios : list,
-                calc_weights: list = [],
-                calc_ratios: list = [],
+                f_weights: list = [],
+                f_ratios: list = [],
                 count: int = 1,
                 cartesian_threshold: float = 0.05) -> Tuple[np.array, np.array]:
 
-            calc_ratios = []
-            calc_weights = []
+            new_ratios = []
+            new_weights = []
 
-            if calc_ratios == []:
-                calc_ratios = ratios[0]
-                calc_weights = weights[0]
 
-            _normalised_ratios = [n / max(calc_ratios) for n in calc_ratios]
+            if count == 1:
+                f_ratios = ratios[0]
+                f_weights = weights[0]
 
-            for ratio_indx in range(len(ratios[count])):
+            normalised_ratio = [r / max(f_ratios) for r in f_ratios]
+
+
+            for ratio_indx, _ in enumerate(ratios[count]):
                 _ratio = ratios[count][ratio_indx]
                 _weight = weights[count][ratio_indx]
-
-                for norm_ratio_index in range(len(_normalised_ratios)):
-                    _norm_ratio = _normalised_ratios[norm_ratio_index] * 100
-                    _norm_weight = calc_weights[norm_ratio_index]
-
+                for norm_ratio_indx, _ in enumerate(normalised_ratio):
+                    _norm_ratio = normalised_ratio[norm_ratio_indx] * 100 #
+                    _norm_weight = f_weights[norm_ratio_indx] #
                     _transformed_ratio = _norm_ratio * _ratio
-
                     if _transformed_ratio > cartesian_threshold:
-                        calc_ratios += [_transformed_ratio]
-                        calc_weights += [_norm_weight + _weight]
-
-            count += 1
-            if count < len(ratios) and len(calc_ratios) < 10000:
-                calc_weights, calc_ratios = _cartesian_product(weights, ratios, calc_weights, calc_ratios, count)
-            return np.array(calc_weights), np.array(calc_ratios)
+                        new_ratios += [_transformed_ratio]
+                        new_weights += [_norm_weight + _weight]
+            count = count + 1
+            if count < len(ratios) and len(new_ratios) < 1000:
+                new_weights, new_ratios = _cartesian_product(weights, ratios, new_weights, new_ratios, count)
+            return new_weights, new_ratios
 
         def _filter_low_ratios(calc_weights : np.array,
             calc_ratios : np.array,
@@ -98,10 +96,12 @@ class Molecule:
             return calc_weights[indx], calc_ratios[indx]
 
 
-        def _generate_isotope_patterns(calc_weight, calc_ratios):
-            pass
+        def _generate_distribution():
+            pairs = {}
 
 
         weights, ratios = _get_weights_and_ratios()
         calc_weights, calc_ratios = _cartesian_product(weights, ratios)
-        calc_weights, calc_ratios = _filter_low_ratios(calc_weights, calc_ratios)
+        print(calc_weights)
+
+        #calc_weights, calc_ratios = _filter_low_ratios(calc_weights, calc_ratios)
