@@ -1,10 +1,8 @@
-import itertools
-from collections import Counter
-import operator
+import numpy as np
+
 from re import findall
 from .element import Element
 from typing import List, Tuple
-import numpy as np
 
 ELECTRON_WEIGHT = 0.0005484
 
@@ -102,7 +100,6 @@ class Molecule:
 
             for weight in calc_dict:
                 calc_dict[weight] = np.sum(calc_ratios[adj_weights == weight]) * 100 / np.max(calc_ratios)
-
 
             return list(calc_dict.keys()), list(calc_dict.values())
 
