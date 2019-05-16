@@ -3,7 +3,7 @@ from collections import Counter
 import operator
 from re import findall
 from .element import Element
-from typing import List
+from typing import List, Tuple
 
 ELECTRON_WEIGHT = 0.0005484
 
@@ -41,16 +41,58 @@ class Molecule:
 
     @property
     def isotopic_distribution(self):
-        
-        def _get_weights_and_ratios():
+
+        def _get_weights_and_ratios() -> Tuple[int, int]:
             weights, ratios = [], []
 
             for elem in self._as_elements:
                 for _ in range(elem.count):
-                    weights.append()
-                    ratios.append()
+                    weights.append(elem.isotopic_weight)
+                    ratios.append(elem.isotopic_ratios)
 
             return weights, ratios
 
-        weights, ratios = _get_weights_and_ratios())
+        def _cartesian_product(
+                weights : list,
+                ratios : list,
+                calc_weights: list = [],
+                calc_ratios: list = [],
+                count: int = 1,
+                threshold: float = 0.05):
 
+            calc_ratios = []
+            calc_weights = []
+
+            if calc_ratios == []:
+                calc_ratios = ratios[0]
+                calc_weights = weights[0]
+
+            _normalised_ratios = [n / max(calc_ratios) for n in calc_ratios]
+
+            for ratio_indx in range(len(ratios[count])):
+                _ratio = ratios[count][ratio_indx]
+                _weight = weights[count][ratio_indx]
+
+                for norm_ratio_index in range(len(_normalised_ratios)):
+                    _norm_ratio = _normalised_ratios[norm_ratio_index] * 100
+                    _norm_weight = calc_weights[norm_ratio_index]
+
+                    _transformed_ratio = _norm_ratio * _ratio
+
+                    if _transformed_ratio > threshold:
+                        calc_ratios += [_transformed_ratio]
+                        calc_weights += [_norm_weight + _weight]
+
+            count += 1
+            if count < len(ratios) and len(calc_ratios) < 10000:
+                calc_weights, calc_ratios = _cartesian_product(weights, ratios, calc_weights, calc_ratios, count)
+            return calc_weights, calc_ratios
+
+        def _filter_cartesian_product(calc_weight, calc_ratios):
+            pass
+
+        def _generate_isotope_patterns():
+            pass
+
+        weights, ratios = _get_weights_and_ratios()
+        calc_weights, calc_ratios = _cartesian_product(weights, ratios)
