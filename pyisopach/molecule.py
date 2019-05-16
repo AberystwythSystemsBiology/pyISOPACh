@@ -96,7 +96,7 @@ class Molecule:
             return calc_weights[indx], calc_ratios[indx]
 
 
-        def _generate_output(calc_weights: np.array, calc_ratios : np.array):
+        def _generate_output(calc_weights: np.array, calc_ratios : np.array) -> Tuple[List[float], List[float]]:
             calc_dict = {x : 0 for x in np.unique(calc_weights)}
 
             for weight in calc_dict:
