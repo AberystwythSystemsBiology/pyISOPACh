@@ -12,10 +12,10 @@ This is a sister package of the DIMEdb project. This program calculates the isot
 # Return molecular weight
 >> mol.molecular_weight
 342.2970125766493
-#Calculate isotopic distribution/pattern
+# Calculate isotopic distribution/pattern
 >> m.isotopic_distribution
 ```
 
 
 ## License
-Code released under [the MIT license](https://github.com/AberystwythSystemsBio/pyisopach/blob/master/LICENSE).
+Code released under [the MIT license](https://github.com/AberystwythSystemsBiology/pyisopach/blob/master/LICENSE).
