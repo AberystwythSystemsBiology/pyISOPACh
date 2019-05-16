@@ -13,7 +13,7 @@ This is a sister package of the DIMEdb project. This program calculates the isot
 >>> mol.molecular_weight
 342.2970125766493
 # Calculate isotopic distribution/pattern
->>> m.isotopic_distribution
+>>> m.isotopic_distribution()
 ```
 
 

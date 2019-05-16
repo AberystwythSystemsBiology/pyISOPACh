@@ -85,7 +85,7 @@ class Molecule:
             count = count + 1
             if count < len(ratios) and len(new_ratios) < 1000:
                 new_weights, new_ratios = _cartesian_product(weights, ratios, new_weights, new_ratios, count)
-            return new_weights, new_ratios
+            return np.array(new_weights), np.array(new_ratios)
 
         def _filter_low_ratios(calc_weights : np.array,
             calc_ratios : np.array,
@@ -102,6 +102,6 @@ class Molecule:
 
         weights, ratios = _get_weights_and_ratios()
         calc_weights, calc_ratios = _cartesian_product(weights, ratios)
-        print(calc_weights)
+        calc_weights, calc_ratios = _filter_low_ratios(calc_weights, calc_ratios)
 
-        #calc_weights, calc_ratios = _filter_low_ratios(calc_weights, calc_ratios)
+        return calc_weights
