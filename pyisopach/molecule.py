@@ -7,8 +7,6 @@ from typing import List, Tuple
 import numpy as np
 
 ELECTRON_WEIGHT = 0.0005484
-ELECTRONS = 1
-
 
 class Molecule:
     def __init__(self, molecular_formula: str):
@@ -98,12 +96,13 @@ class Molecule:
         def _generate_output(calc_weights: np.array, calc_ratios: np.array
                              ) -> Tuple[List[float], List[float]]:
 
-            adj_weights = (calc_weights * electrons) / abs(charge)
+            adj_weights = calc_weights + (ELECTRON_WEIGHT * electrons) / abs(charge)
             calc_dict = {x: 0 for x in np.unique(adj_weights)}
 
+
             for weight in calc_dict:
-                calc_dict[weight] = np.sum(calc_ratios[
-                    calc_weights == weight]) * 100 / np.max(calc_ratios)
+                calc_dict[weight] = np.sum(calc_ratios[adj_weights == weight]) * 100 / np.max(calc_ratios)
+
 
             return list(calc_dict.keys()), list(calc_dict.values())
 
