@@ -83,25 +83,31 @@ class Molecule:
                         new_ratios += [_transformed_ratio]
                         new_weights += [_norm_weight + _weight]
             count = count + 1
-            if count < len(ratios) and len(new_ratios) < 1000:
+            if count < len(ratios) and len(new_ratios) < 10000:
                 new_weights, new_ratios = _cartesian_product(weights, ratios, new_weights, new_ratios, count)
             return np.array(new_weights), np.array(new_ratios)
 
         def _filter_low_ratios(calc_weights : np.array,
             calc_ratios : np.array,
-            weight_limit: float = 1e-6
+            weight_limit: float = 1e-60
             ) -> Tuple[np.array, np.array]:
 
             indx = calc_ratios > weight_limit
             return calc_weights[indx], calc_ratios[indx]
 
 
-        def _generate_distribution():
-            pairs = {}
+        def _generate_output(calc_weights: np.array, calc_ratios : np.array):
+            calc_dict = {x : 0 for x in np.unique(calc_weights)}
 
+            for weight in calc_dict:
+                calc_dict[weight] = np.sum(calc_ratios[calc_weights == weight]) * 100 / np.max(calc_ratios)
+
+            return list(calc_dict.keys()), list(calc_dict.values())
 
         weights, ratios = _get_weights_and_ratios()
         calc_weights, calc_ratios = _cartesian_product(weights, ratios)
         calc_weights, calc_ratios = _filter_low_ratios(calc_weights, calc_ratios)
 
-        return calc_weights
+        masses, intensities = _generate_output(calc_weights, calc_ratios)
+
+        return np.array(masses), np.array(intensities)

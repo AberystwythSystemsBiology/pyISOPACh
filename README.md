@@ -14,6 +14,8 @@ This is a sister package of the DIMEdb project. This program calculates the isot
 342.2970125766493
 # Calculate isotopic distribution/pattern
 >>> m.isotopic_distribution()
+(array([342.11621155, 343.11956639, 344.12045733]), array([100. ,  12.97887395,   2.260493 ]))
+
 ```
 
 
