@@ -48,12 +48,12 @@ class Molecule:
                     weights.append(elem.isotopic_weight)
                     ratios.append(elem.isotopic_ratios)
 
-            return weights, ratios
+            return np.array(weights), np.array(ratios)
 
-        def _cartesian_product(weights: list,
-                               ratios: list,
-                               f_weights: list = [],
-                               f_ratios: list = [],
+        def _cartesian_product(weights: np.array,
+                               ratios: np.array,
+                               f_weights: np.array = np.array([]),
+                               f_ratios: np.array = np.array([]),
                                count: int = 1,
                                cartesian_threshold: float = 0.05
                                ) -> Tuple[np.array, np.array]:
@@ -62,10 +62,11 @@ class Molecule:
             new_weights = []
 
             if count == 1:
-                f_ratios = ratios[0]
-                f_weights = weights[0]
+                f_ratios = np.array(ratios[0])
+                f_weights = np.array(weights[0])
 
-            normalised_ratio = [r / max(f_ratios) for r in f_ratios]
+
+            normalised_ratio = f_ratios / np.max(f_ratios)
 
             for ratio_indx, _ in enumerate(ratios[count]):
                 _ratio = ratios[count][ratio_indx]
@@ -81,6 +82,7 @@ class Molecule:
             if count < len(ratios) and len(new_ratios) < 10000:
                 new_weights, new_ratios = _cartesian_product(
                     weights, ratios, new_weights, new_ratios, count)
+            
             return np.array(new_weights), np.array(new_ratios)
 
         def _filter_low_ratios(
