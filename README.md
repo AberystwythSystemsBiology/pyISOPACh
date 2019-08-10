@@ -1,4 +1,9 @@
-# pyISOPACh - ISOtope PAttern Calculator
+# pyISOPACh - a "fairly fast" ISOtope PAttern Calculator for Python
+
+![PyPI - License](https://img.shields.io/pypi/l/pyISOPACh)
+![PyPI](https://img.shields.io/pypi/v/pyisopach)
+![PyPI - Python Version](https://img.shields.io/pypi/pyversions/pyisopach)
+![PyPI - Status](https://img.shields.io/pypi/status/pyisopach)
 
 This is a sister package of the DIMEdb project. This program calculates the isotopic distribution/pattern of a given chemical species.
 
