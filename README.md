@@ -1,4 +1,11 @@
-# pyISOPACh - ISOtope PAttern Calculator
+# pyISOPACh - a "fairly fast" ISOtope PAttern Calculator for Python
+
+[![Project Status: Active - The project has reached a stable, usable state and is being actively developed.](http://www.repostatus.org/badges/0.1.0/active.svg)](http://www.repostatus.org/#active)
+![PyPI - License](https://img.shields.io/pypi/l/pyISOPACh)
+![PyPI](https://img.shields.io/pypi/v/pyisopach)
+![PyPI - Python Version](https://img.shields.io/pypi/pyversions/pyisopach)
+![PyPI - Status](https://img.shields.io/pypi/status/pyisopach)
+[![Build Status](https://travis-ci.org/AberystwythSystemsBiology/pyISOpach.svg?branch=master)](https://travis-ci.org/AberystwythSystemsBiology/pyISOpach)
 
 This is a sister package of the DIMEdb project. This program calculates the isotopic distribution/pattern of a given chemical species.
 
@@ -32,7 +39,6 @@ pip install https://github.com/AberystwythSystemsBiology/pyISOPACh
 >>> mol.isotopic_distribution()
 (array([342.11621155, 343.11956639, 344.12045733]), array([100.        ,  12.97887395,   2.260493  ]))
 ```
-
 
 ## License
 Code released under [the MIT license](https://github.com/AberystwythSystemsBiology/pyISOPACh/blob/master/LICENSE).
