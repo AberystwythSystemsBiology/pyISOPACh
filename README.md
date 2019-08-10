@@ -38,6 +38,5 @@ pip install https://github.com/AberystwythSystemsBiology/pyISOPACh
 (array([342.11621155, 343.11956639, 344.12045733]), array([100.        ,  12.97887395,   2.260493  ]))
 ```
 
-
 ## License
 Code released under [the MIT license](https://github.com/AberystwythSystemsBiology/pyISOPACh/blob/master/LICENSE).
