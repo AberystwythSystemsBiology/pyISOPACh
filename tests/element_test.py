@@ -23,10 +23,12 @@ class ElementTest(unittest.TestCase):
         self.assertEquals(sum(elem.isotopic_ratios), 1.0)
 
     def test_isotopic_ratios_values(self):
+        # Isotopic Ratios Taken from IUPAC handbook.
         elem = pyisopach.Element("O", 1)
         self.assertTrue(np.array_equal(elem.isotopic_ratios, [0.99757, 0.00038, 0.00205]))
 
     def test_atomic_charge(self):
+        # The atomic charge of Oxygen == -2
         elem = pyisopach.Element("O", 12)
         self.assertEquals(elem.atomic_charge, -2)
 
