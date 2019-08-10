@@ -2,7 +2,7 @@ import unittest
 import pyisopach
 import numpy as np
 
-class ElementTest(unittest.TestCase):
+class TestElement(unittest.TestCase):
 
     def test_incorrect_element(self):
         # Test to see if nonsense element throws an exception
