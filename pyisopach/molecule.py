@@ -39,7 +39,7 @@ class Molecule:
                 structure_dict[element] = 1
         return structure_dict
 
-    def isotopic_distribution(self, electrons: int = 1, charge: int = 0):
+    def isotopic_distribution(self, electrons: int = 0, charge: int = 0):
         def _get_weights_and_ratios() -> Tuple[int, int]:
             weights, ratios = [], []
 
@@ -96,7 +96,7 @@ class Molecule:
         def _generate_output(calc_weights: np.array, calc_ratios: np.array
                              ) -> Tuple[List[float], List[float]]:
 
-            adj_weights = calc_weights + (ELECTRON_WEIGHT * electrons) / abs(charge)
+            adj_weights = (calc_weights + (ELECTRON_WEIGHT * electrons)) / abs(charge)
             calc_dict = {x: 0 for x in np.unique(adj_weights)}
 
 
