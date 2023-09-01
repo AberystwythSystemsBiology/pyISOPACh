@@ -48,7 +48,7 @@ class Molecule:
                     weights.append(elem.isotopic_weight)
                     ratios.append(elem.isotopic_ratios)
 
-            return np.array(weights), np.array(ratios)
+            return np.array(weights, dtype=object), np.array(ratios, dtype=object)
 
         def _cartesian_product(weights: np.array,
                                ratios: np.array,
